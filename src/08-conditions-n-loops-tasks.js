@@ -264,8 +264,14 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  return String(ccn)
+    .split('')
+    .reverse()
+    .map((el) => parseInt(el, 10))
+    .map((el, index) => (index % 2 ? el * 2 : el))
+    .map((el) => (el > 9 ? (el % 10) + 1 : el))
+    .reduce((acc, val) => acc + val) % 10 === 0;
 }
 
 /**
@@ -400,8 +406,28 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const finalArr = [];
+
+  function number(matrix1, matrix2, j) {
+    let result = 0;
+
+    matrix1.forEach((value, index) => {
+      result += value * matrix2[index][j];
+    });
+
+    return result;
+  }
+
+  for (let i = 0; i < m1.length; i += 1) {
+    finalArr.push([]);
+
+    for (let j = 0; j < m2[0].length; j += 1) {
+      finalArr[i].push(number(m1[i], m2, j));
+    }
+  }
+
+  return finalArr;
 }
 
 
@@ -435,8 +461,35 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const positionCopy = position;
+  let xPos = '';
+  let oPos = '';
+  const winPositions = ['012', '345', '678', '036', '147', '258', '048', '246', '1347', '23578', '03478', '2346', '14567', '2458', '0468'];
+  positionCopy[0].length = 3;
+  positionCopy[1].length = 3;
+  positionCopy[2].length = 3;
+  const arr = positionCopy[0].concat(positionCopy[1], positionCopy[2]);
+
+  for (let i = 0; i < arr.length; i += 1) {
+    if (arr[i] === 'X') {
+      xPos += i;
+    }
+    if (arr[i] === '0') {
+      oPos += i;
+    }
+  }
+
+  for (let i = 0; i < winPositions.length; i += 1) {
+    if (xPos.indexOf(winPositions[i]) > -1) {
+      return 'X';
+    }
+    if (oPos.indexOf(winPositions[i]) > -1) {
+      return '0';
+    }
+  }
+
+  return undefined;
 }
 
 
